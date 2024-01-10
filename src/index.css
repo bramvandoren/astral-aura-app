@@ -1,13 +1,226 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+/* === Kleurvariabelen === */
+:root {
+  --primary-color: #290052;        /* Diep Paars */
+  --header-bg-color: #333;
+  --bg-color: #171717;
+  --header-text-color: white;
+  --nav-link-color: white;
+  --nav-link-hover-color: #ffcc00;
+  --hero-bg-color: #333;
+  --text-color: white;
+  --featured-story-margin: 20px;   /* Verkleind voor mobiel */
+  --slider-image-border-radius: 10px;
+  --footer-bg-color: #333;
+  --footer-text-color: white;
+  --button-bg-color: #ffcc00;         /* Goudgeel */
+  --button-text-color: #333;
+  --button-hover-bg-color: #e5b200;   /* Donker Goudgeel */
+
+  --font-family: 'Poppins', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* === Algemene Stijlen === */
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* === Header === */
+header {
+  background-color: var(--header-bg-color);
+  color: var(--header-text-color);
+  padding: 10px 0;  /* Verkleind voor mobiel */
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;  /* Nieuwe regel voor mobiel */
+  justify-content: center;  /* Nieuwe regel voor mobiel */
+}
+
+nav li {
+  margin: 5px;  /* Aangepast voor mobiel */
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--nav-link-color);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--nav-link-hover-color);
+}
+
+/* === Hero-sectie === */
+.hero {
+  height: 300px;  /* Verkleind voor mobiel */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hero-text-color);
+  text-align: center;
+  background-color: var(--hero-bg-color);
+}
+
+.hero h1 {
+  font-size: 2em;  /* Verkleind voor mobiel */
+}
+
+/* === Featured Story === */
+.featured-story {
+  display: block;  /* Aangepast voor mobiel */
+  margin-bottom: var(--featured-story-margin);
+}
+
+.featured-story__content {
+  flex: 1;
+  margin-top: 10px;  /* Aangepast voor mobiel */
+}
+
+.featured-story h2 {
+  font-size: 1.5em;  /* Verkleind voor mobiel */
+}
+
+.featured-story p {
+  font-size: 1em;  /* Verkleind voor mobiel */
+}
+
+/* === Slider === */
+.slider__reel {
+  display: block;  /* Aangepast voor mobiel */
+  overflow-x: auto;  /* Nieuwe regel voor mobiel */
+  white-space: nowrap;  /* Nieuwe regel voor mobiel */
+}
+
+.slider__image {
+  width: 100%;
+  max-width: 200px;  /* Verkleind voor mobiel */
+  margin-right: 5px;  /* Aangepast voor mobiel */
+  border-radius: var(--slider-image-border-radius);
+}
+
+/* === Flex Columns === */
+.flex-columns {
+  display: block;  /* Aangepast voor mobiel */
+}
+
+.flex-columns__item {
+  flex: 1;
+  margin: 0 0 20px 0;  /* Aangepast voor mobiel */
+}
+
+.flex-columns h4 {
+  margin-top: 10px;  /* Aangepast voor mobiel */
+}
+
+.flex-columns__image {
+  width: 100%;
+  max-width: 150px;  /* Verkleind voor mobiel */
+  border-radius: 50%;
+}
+
+/* === Footer === */
+.footer {
+  background-color: var(--footer-bg-color);
+  color: var(--footer-text-color);
+  padding: 10px 0;  /* Verkleind voor mobiel */
+ 
+}
+
+/* === Formulier === */
+form {
+  max-width: 400px;  /* Aangepast voor mobiel */
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--button-hover-bg-color);
+}
+
+option {
+  color: black;
+}
+
+/* === Statistieken === */
+
+.statistics-container {
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.statistics-container h2 {
+  color: var(--primary-color);
+}
+
+.stats-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+  font-size: 16px;
+  color: #555;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+
