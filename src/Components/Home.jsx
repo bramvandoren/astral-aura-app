@@ -82,7 +82,7 @@ function Home() {
       <div>
         <h2>Maak hier een nieuwe opdracht</h2>
         {/* <button><a href={}>Maak opdracht</a></button> */}
-        <button><Link to="opdracht/create">Maak een opdracht</Link></button>
+        <button><Link to="opdrachten/create">Maak een opdracht</Link></button>
       </div>
 
       {/* Informatie over het uitzendbureau/soc. netwerk */}
@@ -108,13 +108,16 @@ function Home() {
         )}
       </div>
 
-      {/* Informatie over opdrachten */}
+      {/* Laatst teogevoegde opdrachten */}
       <div>
-        <h2>Huidige Opdrachten</h2>
-        {opdrachtenData && opdrachtenData.entries && opdrachtenData.entries.map((entry, index) => (
-          <div key={index}>
-            <p>{entry.title}</p>
-          </div>
+        <h2>Recente Opdrachten</h2>
+        {opdrachtenData && opdrachtenData.entries && opdrachtenData.entries
+          .slice(0, 3) // Neem de eerste drie opdrachten
+          .map((entry, index) => (
+            <div className="opdracht" key={index}>
+              <p className="opdracht-titel">{entry.title}</p>
+              <p className="opdracht-auteur-naam">{entry.author.name}</p>
+            </div>
         ))}
       </div>
     </div>

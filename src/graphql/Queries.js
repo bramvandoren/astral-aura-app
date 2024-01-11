@@ -1,9 +1,74 @@
 import { gql, useQuery } from "@apollo/client";
 
 export const GET_OPDRACHTEN = gql`
-  query {
-    entries(section: "opdrachten") {
+  query GetOpdrachten {
+    entries(section: "opdrachten", orderBy: "dateCreated DESC") {
+      author {
+        id
+        fullName
+        name
+      }
+      ... on opdrachten_default_Entry {
+        id
+        dateCreated
+        deadline
+        opdrachtStatus
+        omschrijving
+        categorieen {
+          id
+          title
+        }
+      }
+      id
       title
+    }
+  }
+`;
+
+export const GET_OPDRACHT = gql`
+  query GetOpdracht($opdrachtId: [QueryArgument]) {
+    entry(id: $opdrachtId) {
+      author {
+        fullName
+        name
+      }
+      ... on opdrachten_default_Entry {
+        id
+        title
+        omschrijving
+        deadline
+        opdrachtStatus
+        categorieen {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+
+export const GET_PERSONAL_OPDRACHTEN = gql`
+  query GetPersonalOpdrachten($id: [QueryArgument]) {
+    entries(section: "opdrachten", authorId: $id) {
+      author {
+        id
+        fullName
+        name
+      }
+      ... on opdrachten_default_Entry {
+        id
+        dateCreated
+        deadline
+        omschrijving
+        opdrachtStatus
+        categorieen {
+          id
+          title
+        }
+      }
+      id
+      title
+      authorId
     }
   }
 `;
@@ -65,12 +130,10 @@ export const GET_ABOUT_US = gql`
 
 // Query voor het ophalen van user info
 export const GET_USER_PROFILE = gql`
-  query GET_USER_PROFILE(
-    $naam: String
-    $email: String
-    $gsm: String
-  ) { viewer(fullName: $naam, email: $email, gsm: $gsm) {
+  query GET_USER_PROFILE{
+    viewer{
       ... on User {
+        id
         fullName
         email
         gsm
@@ -79,15 +142,16 @@ export const GET_USER_PROFILE = gql`
   }
 `;
 
-
-// mutation UpdateOpdrachtgever(
-//   $fullName: String
-//   $email: String
-//   $gsm: String
-// ) {
-//   updateViewer(fullName: $fullName, email: $email, gsm: $gsm) {
-//     ... on User {
-//       id
-//     }
-//   }
-// }
+// Query voor het ophalen van de mediums
+export const GET_MEDIUMS = gql`
+query MyQuery {
+  users(group: "Mediums") {
+    id
+    name
+    email
+    photo {
+      url
+    }
+  }
+}
+`;

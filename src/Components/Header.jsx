@@ -14,6 +14,9 @@ function Header() {
             <Link to="/">Home</Link>
           </li>
           <li>
+            <Link to="/opdrachten">Opdrachten</Link>
+          </li>
+          <li>
             <Link to="/mediums">Mediums</Link>
           </li>
           {/* {user ? ( */}

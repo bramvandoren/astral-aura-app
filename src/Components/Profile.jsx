@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Auth/AuthContainer';
 import { useQuery, useMutation, ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
-import { GET_CATEGORIES, GET_USER_PROFILE } from '../graphql/Queries';
+import { GET_CATEGORIES, GET_USER_PROFILE, GET_OPDRACHTEN } from '../graphql/Queries';
 import { UPDATE_USER_PROFILE } from '../graphql/Mutations';
 import { setContext } from '@apollo/client/link/context';
+import { Link } from 'react-router-dom';
+
 
 const Profiel = () => {
   const { logout, user } = useAuth();
@@ -44,19 +46,24 @@ const Profiel = () => {
   });
 
   const { loading: profileLoading, data: profileData } = useQuery(GET_USER_PROFILE, {
-    client: client, // Voeg de Apollo Client toe aan de query
+    client: client,
   });
 
+
+
   useEffect(() => {
-    // console.log(profileData)
-    // if (profileData && profileData.user) {
-      
-      // Stel de initiële waarden in met behulp van de gegevens van de query
-      setEmail(user.user.email || '');  // Gebruik de gegevens van de query
-      setNaam(user.user.fullname || '');    // Gebruik de gegevens van de query
-      setGsm(user.user.gsm || '');      // Gebruik de gegevens van de query
-    // }
+    if (profileData && profileData.viewer) {
+      // Extract data from the query response
+      const { id, fullName, email, gsm } = profileData.viewer;
+
+      // Set the initial values using the data from the query
+      setEmail(email || '');
+      setNaam(fullName || '');
+      setGsm(gsm || '');
+    }
   }, [profileData]);
+
+  // const { loading: opdrachtenLoading, error: opdrachtenError, data: opdrachtenData } = useQuery(GET_OPDRACHTEN);
 
 
   // const { loading, error, data } = useQuery(GET_CATEGORIES, {
@@ -66,6 +73,7 @@ const Profiel = () => {
   const [updateUserProfile, { loading: updateUserLoading, error: updateUserError }] = useMutation(UPDATE_USER_PROFILE, {
     client: client, // Voeg de Apollo Client toe aan de mutatie
   });
+
 
   const voegSpecialisatieToe = () => {
     if (nieuweSpecialisatie.trim() !== '') {
@@ -83,6 +91,30 @@ const Profiel = () => {
   // const filteredCategories = data?.categories.filter((categorie) =>
   //   categorie.title.toLowerCase().includes(searchTerm.toLowerCase())
   // );
+
+  // const handleProfile = async () => {
+  //   try {
+  //     // Gebruik de updateUserProfile-mutatie om gebruikersgegevens bij te werken
+  //     await profielGegevens({
+  //       variables: {
+  //         email,
+  //         naam,
+  //         gsm
+  //       },
+  //       context: {
+  //         headers: {
+  //           Authorization: `JWT ${user.jwt}`,
+  //         },
+  //       },
+  //     });
+  //     setEditMode(false);
+  //     setEmail(user.user.email || '');  // Gebruik de gegevens van de query
+  //     setNaam(user.user.fullname || '');    // Gebruik de gegevens van de query
+  //     setGsm(user.user.gsm || '');      // Gebruik de gegevens van de query
+  //   } catch (error) {
+  //     console.error('Fout bij het bijwerken van het profiel:', error);
+  //   }
+  // };
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault(); // Prevent the default form submission
@@ -105,8 +137,7 @@ const Profiel = () => {
           },
         },
       });
-
-      setEditMode(false);
+      // setEditMode(false);
     } catch (error) {
       console.error('Fout bij het bijwerken van het profiel:', error);
     }
@@ -115,7 +146,19 @@ const Profiel = () => {
   return (
     <div>
       <h2>Mijn Profiel</h2>
-      <p>Specialisaties:</p>
+      {profileLoading && <p>Loading...</p>}
+      {profileData && profileData.viewer && (
+        <div>
+          <p>ID: {profileData.viewer.id}</p>
+          <p>Email: {profileData.viewer.email}</p>
+          <p>Naam: {profileData.viewer.fullName}</p>
+          <p>GSM: {profileData.viewer.gsm}</p>
+        </div>
+      )}
+
+      <h3>Mijn opdrachten</h3>
+      <button><Link to="/profiel/opdrachten">Mijn opdrachten</Link></button>
+      <h3>Specialisaties:</h3>
       <ul>
         {specialisaties.map((specialisatie, index) => (
           <li key={index}>
@@ -157,36 +200,35 @@ const Profiel = () => {
         </div>
       )} */}
       {/* {editMode ? ( */}
+
         <div>
+          <h3>Gegevens</h3>
           <form onSubmit={handleUpdateProfile}>
-        {/* Title input */}
-        <label>
-          Email:
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        {/* Omschrijving input */}
-        <label>
-          Naam:
-          <input value={naam} onChange={(e) => setNaam(e.target.value)} />
-        </label>
-        {/* Plaats input */}
-        <label>
-          Gsm:
-          <input type="text" value={gsm} onChange={(e) => setGsm(e.target.value)} />
-        </label>
-        {/* Submit button */}
-        <button type="submit" disabled={updateUserLoading}>
-        Profiel updaten
-        </button>
-      </form>
-      {updateUserLoading && <p>Loading...</p>}
-      {updateUserError && <p>Error: {updateUserError.message}</p>}
+            {/* Title input */}
+            <label>
+              Email:
+              <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </label>
+            {/* Omschrijving input */}
+            <label>
+              Naam:
+              <input value={naam} onChange={(e) => setNaam(e.target.value)} />
+            </label>
+            {/* Plaats input */}
+            <label>
+              Gsm:
+              <input type="text" value={gsm} onChange={(e) => setGsm(e.target.value)} />
+            </label>
+            {/* Submit button */}
+            <button type="submit" disabled={updateUserLoading}>
+            Profiel updaten
+            </button>
+          </form>
+          {updateUserLoading && <p>Loading...</p>}
+          {updateUserError && <p>Error: {updateUserError.message}</p>}
           {/* Invoervelden voor bijwerken profiel */}
           
         </div>
-      {/* ) : ( */}
-        {/* <button onClick={() => setEditMode(true)}>Bewerk Profiel</button> */}
-      {/* )} */}
       <button onClick={logout}>Log uit</button>
     </div>
   );

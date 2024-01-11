@@ -31,6 +31,7 @@ const CreateOpdracht = () => {
           omschrijving,
           plaats,
           deadline,
+          status: 'disabled',
         },
       });
 
@@ -69,7 +70,7 @@ const CreateOpdracht = () => {
         </label>
         {/* Submit button */}
         <button type="submit" disabled={loading}>
-           Opdracht
+           Stuur opdracht
         </button>
       </form>
       {/* Display loading or error messages as needed */}

@@ -3,8 +3,8 @@ const Routes = Object.freeze({
   Register: '/register',
 
   Opdrachten: '/opdrachten',
-  OpdrachtenDetail: "/opdrachten/:id",
-  CreateOpdracht: "/opdracht/create",
+  OpdrachtDetail: "/opdrachten/:id",
+  CreateOpdracht: "/opdrachten/create",
 
   Profiel: '/profiel',
   ProfielOpdrachten: '/profiel/opdrachten',

@@ -17,6 +17,9 @@ import PrivateRoute from "./Components/PrivateRoute";
 import { AuthProvider, useAuth } from "./Auth/AuthContext";
 import Profile from "./Components/Profile";
 import AuthContainer from "./Auth/AuthContainer";
+import Opdrachten from "./Components/Opdrachten";
+import ProfielOpdrachten from "./Components/ProfielOpdrachten";
+import OpdrachtDetail from "./Components/OpdrachtDetail";
 
 function App() {
   // const { authToken } = useAuth();
@@ -27,12 +30,16 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/opdracht/create" element={<CreateOpdracht/>}></Route>
+        <Route path="/opdrachten" element={<Opdrachten />} />
+        <Route path="/opdrachten/:opdrachtId" element={<OpdrachtDetail />} />
+        <Route path="/opdrachten/create" element={<CreateOpdracht/>}></Route>
         <Route path="/mediums" element={<Mediums />} />
         <Route path="/mediums/:mediumId" element={<MediumProfile />} />
         {/* <AuthContainer/> */}
 
         <Route path="/profiel" element={<Profile />} />
+        <Route path="/profiel/opdrachten" element={<ProfielOpdrachten />} />
+
       </Routes>
     </div>
   );

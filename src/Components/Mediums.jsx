@@ -1,29 +1,28 @@
 // KandidaatMediums.js
 import React from 'react';
 import { useQuery } from '@apollo/client';
-// import { GET_KANDIDAAT_MEDIUMS_QUERY } from '../graphql/queries';
+import { GET_MEDIUMS } from '../graphql/Queries';
 
 const KandidaatMediums = () => {
-  // const { loading, error, data } = useQuery(GET_KANDIDAAT_MEDIUMS_QUERY);
+  const { loading, error, data: mediumdata } = useQuery(GET_MEDIUMS);
 
-  // if (loading) return <p>Laden...</p>;
-  // if (error) return <p>Error: {error.message}</p>;
+  if (loading) return <p>Laden...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
-  // const kandidaatMediums = data.kandidaatMediums;
 
   return (
     <div>
       <h2>Kandidaat Mediums</h2>
-      {/* <ul>
-        {kandidaatMediums.map((medium) => (
-          <li key={medium.id}>
-            <strong>{medium.naam}</strong>
-            <p>Specialiteit: {medium.specialiteit}</p>
-            {
+      <div>
+        {mediumdata.users.map((medium) => (
+          <div className='medium' key={medium.id}>
+            <h3>{medium.name}</h3>
+            <img className='medium-foto' src={medium.photo ? medium.photo.url : "https://www.pexels.com/photo/a-woman-in-black-clothes-sitting-n-the-table-with-wooden-board-and-candlelight-7278732/" } alt={`Foto van ${medium.name}`}/>
+            <p>Specialiteit(en): {medium.specialiteit}</p>
             <button>Kies dit Medium</button>
-          </li>
+          </div>
         ))}
-      </ul> */}
+      </div>
     </div>
   );
 };

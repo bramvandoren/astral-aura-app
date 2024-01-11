@@ -29,3 +29,22 @@ export const CREATE_OPDRACHT = gql`
     }
   }
 `;
+
+// Aanvraag gebruiiker voor opdracht te behanndelen
+export const AANVRAAG_USER = gql`
+  mutation createOpdracht(
+    $opdrachtId: ID,
+  ) {
+    save_opdrachten_default_Entry(
+      authorId: $authorId
+      title: $title
+      omschrijving: $omschrijving
+      plaats: $plaats
+    ) {
+      id
+      title
+    }
+  }
+`;
+
+

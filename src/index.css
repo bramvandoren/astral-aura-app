@@ -224,3 +224,33 @@ option {
 }
 
 
+/* === Opdrachten === */
+
+.opdracht {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  &-titel {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  &-auteur-naam {
+    color: #666;
+  }
+}
+
+/* === Mediums === */
+
+.medium {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.medium-foto {
+  width: 50px;
+  height: 50px;
+}
+
