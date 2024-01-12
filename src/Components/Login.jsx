@@ -41,7 +41,7 @@ const Login = ({setUser}) => {
   };
 
   return (
-    <div>
+    <div className='wrapper'>
       <div>
         <h1>AstralAura</h1>
       </div>
@@ -55,8 +55,8 @@ const Login = ({setUser}) => {
       {error && <p>Error: {error.message}</p>}
       <p>
         Nog geen account? 
-        <Link to="/register">Registreer hier</Link>
       </p>
+      <Link to="/register">Registreer hier</Link>
     </div>
   );
 };

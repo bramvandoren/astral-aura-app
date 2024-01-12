@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { AANMELDEN_OPDRACHT_MUTATION } from '../graphql/Mutations'; // Zorg ervoor dat je deze query hebt
+import { AANVRAAG_USER } from '../graphql/Mutations';
 import { GET_OPDRACHT } from '../graphql/Queries';
 
 
 const AanvragenOpdracht = ({ opdrachtId, specialiteit }) => {
   const [aanmeldingTekst, setAanmeldingTekst] = useState('');
 
-  const [aanmeldenOpdracht, { loading: aanmeldenLoading, error: aanmeldenError }] = useMutation(AANMELDEN_OPDRACHT_MUTATION, {
+  const [aanmeldenOpdracht, { loading: aanmeldenLoading, error: aanmeldenError }] = useMutation(AANVRAAG_USER, {
     // Hier zou je de variabelen voor de mutatie moeten instellen, bijvoorbeeld: variables: { opdrachtId, aanmeldingTekst, specialiteit }
     // Voeg eventueel ook een update-functie toe om de UI bij te werken na een succesvolle aanmelding
     variables: { opdrachtId, aanmeldingTekst, specialiteit },
@@ -32,7 +32,7 @@ const AanvragenOpdracht = ({ opdrachtId, specialiteit }) => {
       <textarea
         value={aanmeldingTekst}
         onChange={(e) => setAanmeldingTekst(e.target.value)}
-        placeholder="Waarom ben jij de juiste persoon voor deze opdracht?"
+        placeholder="Waarom ben jij de juiste Medium voor deze opdracht?"
       />
       <button onClick={handleAanmelden} disabled={aanmeldenLoading}>
         Aanmelden

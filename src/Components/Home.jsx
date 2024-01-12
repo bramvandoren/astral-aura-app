@@ -1,11 +1,31 @@
 // Importeer de benodigde hooks en queries
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_OPDRACHTEN, GET_STATS, GET_PARTNERS, GET_TESTIMONIALS, GET_ABOUT_US, GET_WIDGETS } from '../graphql/Queries';
+import { GET_OPDRACHTEN, GET_STATS, GET_PARTNERS, GET_TESTIMONIALS, GET_ABOUT_US, GET_WIDGETS, GET_MEDIUMS } from '../graphql/Queries';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../Auth/AuthContext';
+import { useAuth } from '../Auth/AuthContainer';
+
 
 function Home() {
+
+  const { user } = useAuth();
+
+
+  const [userIsMedium, setUserIsMedium] = useState(false);
+
+  // Haal Mediums op en kijk of user.user.id één van de ids is in de medium profielen
+  const { loading: mediumsLoading, data: mediumsData } = useQuery(GET_MEDIUMS, {
+    variables: { id: [user.user.id] }
+  });
+
+  useEffect(() => {
+    if (mediumsData) {
+      const isMedium = mediumsData.users.some(medium => medium.id === user.user.id);
+      setUserIsMedium(isMedium);
+    }
+  }, [mediumsData, user.user.id]);
+
+
   // Haal gegevens op met behulp van de GraphQL-query's
   const { loading: opdrachtenLoading, error: opdrachtenError, data: opdrachtenData } = useQuery(GET_OPDRACHTEN);
   const { loading: statsLoading, error: statsError, data: statsData } = useQuery(GET_STATS);
@@ -74,26 +94,32 @@ function Home() {
   }
 
   // Render de homepage met de opgehaalde gegevens
-  return (
-    <div>
-      <h1>Welcome to AstralAura</h1>
-
+  return (<>
+    <h1>AstralAura</h1>
+    <div className='wrapper'>
+      <h2>Welkom bij AstralAura</h2>
+      <p className='slogan'>
+        Waar paranormale liefhebbers verbonden worden met degenen die hulp zoeken!
+      </p>
       {/* Maak een opdracht */}
-      <div>
-        <h2>Maak hier een nieuwe opdracht</h2>
+      {!userIsMedium && (<div>
+        <h3>Maak hier een nieuwe opdracht</h3>
         {/* <button><a href={}>Maak opdracht</a></button> */}
         <button><Link to="opdrachten/create">Maak een opdracht</Link></button>
-      </div>
+      </div>)}
 
       {/* Informatie over het uitzendbureau/soc. netwerk */}
-      <div>
-        <h2>Over ons</h2>
+      <div >
+        <h3>Over ons</h3>
+        <p><b>AstralAura</b></p>
+        <p>Dorpstraat 1</p>
+        <p>9000 Gent</p>
         {aboutUsData && <p>{aboutUsData.title}</p>}
       </div>
 
       {/* Statistieken (hoeveel cases, hoeveel geregistreerde mediums, ...) */}
       <div className="statistics-container">
-        <h2>Statistieken</h2>
+        <h3>Statistieken</h3>
         {statsData && (
           <div className="stats-wrapper">
             <div className="stat-item">
@@ -110,17 +136,18 @@ function Home() {
 
       {/* Laatst teogevoegde opdrachten */}
       <div>
-        <h2>Recente Opdrachten</h2>
+        <h3>Recente Opdrachten</h3>
         {opdrachtenData && opdrachtenData.entries && opdrachtenData.entries
           .slice(0, 3) // Neem de eerste drie opdrachten
           .map((entry, index) => (
             <div className="opdracht" key={index}>
-              <p className="opdracht-titel">{entry.title}</p>
+              <p className="opdracht-titel"><b>{entry.title}</b></p>
               <p className="opdracht-auteur-naam">{entry.author.name}</p>
             </div>
         ))}
       </div>
     </div>
+    </>
   );
 }
 

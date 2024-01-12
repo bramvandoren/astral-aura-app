@@ -26,8 +26,12 @@ export const REGISTER_OPDRACHTGEVER = gql`
 
 // Mutation to register a new Medium user
 export const REGISTER_MEDIUM = gql`
-  mutation RegisterMedium($email: String!, $password: String!) {
-    registerMediums(email: $email, password: $password) {
+  mutation RegisterMedium(
+    $email: String!
+    $password: String!
+    $diploma: Upload
+  ) {
+    registerMediums(email: $email, password: $password, diploma: $diploma) {
       jwt
       jwtExpiresAt
       refreshToken
@@ -35,6 +39,11 @@ export const REGISTER_MEDIUM = gql`
       user {
         id
         email
+        ... on User {
+          id
+          email
+          diploma
+        }
       }
     }
   }
